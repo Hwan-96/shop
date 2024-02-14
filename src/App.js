@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { useState } from 'react';
 import './App.css';
-// import {Button, Navbar, Container, Nav} from 'react-bootstrap'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -23,35 +22,12 @@ function App() {
         {
           product.map(function(n, i){
             return(
-              <Card product={product[i]} i={i} key={i}></Card>
+              <Card product={product[i]} i={i} key={i}></Card> // 하위컴포넌트로 props 하기위해 첫번째로 할 것, 작명={state명}
             )
           })
           
         }
       </div>
-
-      {/* <div className='container'>
-        <div className='row'>
-          <div className='col-md-4'>
-            <img src= {process.env.PUBLIC_URL + '/01.jpg'} width='80%'></img>
-            <h4>{product[0].title}</h4>
-            <p>{product[0].price}</p>
-          </div>
-          <div className='col-md-4'>
-            <img src= {process.env.PUBLIC_URL + '/03.jpg'} width='80%'></img>
-            <h4>{product[1].title}</h4>
-            <p>{product[1].price}</p>
-          </div>
-          <div className='col-md-4'>
-            <img src= {process.env.PUBLIC_URL + '/04.jpg'} width='80%'></img>
-            <h4>{product[2].title}</h4>
-            <p>{product[2].price}</p>
-          </div>
-
-          <Card></Card>
-        </div>
-      </div> */}
-
     </div>
   );
 }
@@ -79,14 +55,15 @@ function Representative(){
   )
 }
 
-function Card(props){
+function Card(props){ // props  두번째 스텝
   return (
-    <div className="col-md-4">
-      <img src={process.env.PUBLIC_URL + '0' + [props.i + 1] + '.jpg'} width="100%" className='col-img'/>
+    <div className="col-md-4 col-content">
+      <img src={process.env.PUBLIC_URL + '0' + [props.i + 1] + '.jpg'} className='col-img'/>
       <h3> {props.product['title']} </h3>
       <p> {props.product['content']} & {props.product['price']}</p>
     </div>
   )
 }
+
 
 export default App;

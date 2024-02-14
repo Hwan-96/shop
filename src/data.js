@@ -27,7 +27,28 @@ let data = [
       title : "Hitchhiker Doha",
       content : "Born in the States",
       price : 130000
-    }
+    },
+    
+    {
+      id : 3,
+      title : "4 Doha",
+      content : "Born in the States",
+      price : 158000
+    },
+
+    {
+      id : 4,
+      title : "5 Doha",
+      content : "Born in the States",
+      price : 191000
+    },
+
+    {
+      id : 5,
+      title : "6 Doha",
+      content : "Born in the States",
+      price : 191000
+    },
   ];
 
 export default data;

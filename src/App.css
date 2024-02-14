@@ -23,8 +23,18 @@
   background-repeat: no-repeat;
 }
 
+.row{
+  width: 1200px;
+  margin: auto;
+}
+
 .col-img{
+  width: 300px;
+  height: 300px;
   object-fit: cover;
   object-position: center;
-  height: auto;
+}
+
+.col-content{
+  text-align: center;
 }
