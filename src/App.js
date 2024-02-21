@@ -9,13 +9,15 @@ import Col from 'react-bootstrap/Col';
 
 import data from './data';
 
-import { Routes, Route, Link } from "react-router-dom";
-import DetailPage from './detailPage';
+import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
+import Detail from './routes/Detail';
 
 function App() {
 
   let [product, setProduct] = useState(data);
-
+  
+  // Hook 이란? : 유용한것들을 모아둔 함수
+  
   return (
     <div className='App'>
       {/* <Routes> 라우트 기본 구성 요소
@@ -28,6 +30,7 @@ function App() {
       
 
       <HeaderNav></HeaderNav>
+
       <Routes>
         <Route path='/' element={
           <>
@@ -46,9 +49,37 @@ function App() {
           </>
           /* <></> 프레그먼트 문법 */
         }/>
-        <Route path='/detail' element={
-          <DetailPage></DetailPage>
-        }/>
+        <Route path='/detail/:id' element={<Detail product={product}/>}/>
+        {/* 
+          url 파라미터 문법으로 상세페이지 개수 늘리기 1단계.
+          <Route path='/detail/:id' element={<Detail product={product}/>}/>
+          path 속에 / 다음 콜론,작명 순서 대로 작성(위처럼)
+        */}
+        {/* 
+        detail.js 꾸미기 1
+        <Route path='/detail' element={<Detail/>}/> 기존 해둔거에 props 전송 필요함
+        <Route path='/detail' element={<Detail product={product}/>}/> <- 이렇게 하면됨
+        */}
+        
+        <Route path='*' element={<div>없는 페이지</div>}/> {/* 404 페이지 : 오타포함 이상한 경로로 접속했을때 */}
+        
+        <Route path='/about' element={<About/>}>
+          <Route path='member' element={<div>멤버임</div>}/>
+          <Route path='location' element={<div>위치임</div>}/>
+        </Route>
+
+        {/* 위 아래 둘다 같은 의미이고, 위를 nested routes 라고한다, 태그 안에 태그, 장점으로는 /about에 들어가도 아래 member의 엘리멘트도 같이 보여짐
+        언제 쓸지? 유사 페이지가 필요할때 (반복되는), 여러페이지가 필요할때 사용하면 좋을 듯
+        */}
+        {/* <Route path='/about/member' element={<About/>}/>
+        <Route path='/about/location' element={<About/>}/> */}
+
+        <Route path='/event' element={<Event/>}>
+          <Route path='one' element={<div>첫 주문시 양배추즙 서비스</div>}/>
+          <Route path='two' element={<div>생일기념 쿠폰받기</div>}/>
+        </Route>
+
+
       </Routes>
 
 
@@ -68,7 +99,28 @@ function App() {
   );
 }
 
+function Event(){
+  return(
+    <div>
+      <h4>오늘의 이벤트</h4>
+      <Outlet></Outlet>
+    </div>
+  )
+}
+
+function About(){
+  return(
+    <div>
+      <h4>회사정보</h4>
+      <Outlet></Outlet> {/* 위에서 nested routes 를 쓸 때 하위 라우트를 내보내기 위함 */}
+    </div>
+  )
+}
+
 function HeaderNav(){
+
+  let navigate = useNavigate();
+
   return(
     <Navbar expand='lg' bg="light" data-bs-theme="light" className='navbar-all'>
       <Container>
@@ -76,8 +128,9 @@ function HeaderNav(){
         <Navbar.Toggle aria-controls='basic-navbar-nav'></Navbar.Toggle>
         <Navbar.Collapse>
           <Nav className="me-auto">
-            <Link to={"/"}>Home</Link>
-            <Link to={"/detail"}>Detail</Link>
+            <Nav.Link onClick={() => { navigate('/') }}>Home</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/detail') }}>Detail</Nav.Link>
+            {/* onClick={() => { navigate('1') }} : 1 은 앞으로 가기 -1은 뒤로가기 기능을 한다*/}
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -94,7 +147,7 @@ function Representative(){
 function Card(props){ // props  두번째 스텝
   return (
     <div className="col-md-4 col-content">
-      <img src={process.env.PUBLIC_URL + '0' + [props.i + 1] + '.jpg'} className='col-img'/>
+      <img src={process.env.PUBLIC_URL + '0' + [props.i] + '.jpg'} className='col-img'/>
       <h3> {props.product['title']} </h3>
       <p> {props.product['content']} & {props.product['price']}</p>
     </div>

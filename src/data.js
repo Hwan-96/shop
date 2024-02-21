@@ -12,7 +12,7 @@ let data = [
       id : 0,
       title : "X-mas Doha",
       content : "Born in France",
-      price : 120000
+      price : 34500
     },
   
     {
