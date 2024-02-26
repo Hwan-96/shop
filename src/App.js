@@ -6,11 +6,13 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { useParams } from 'react-router-dom';
 
 import data from './data';
 
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
-import Detail from './routes/Detail';
+// import Detail from './routes/Detail';
+import Detail from './routes/Detail3';
 
 function App() {
 
@@ -36,11 +38,12 @@ function App() {
           <>
           <Representative></Representative>
             <div className='container'>
-              <div className='row'>  
+              <div className='row'>
                 {
                   product.map(function(n, i){
                     return(
-                      <Card product={product[i]} i={i} key={i}></Card> // 하위컴포넌트로 props 하기위해 첫번째로 할 것, 작명={state명}
+                      <Card product={product[i]} i={i} key={i}></Card>
+                      // 하위컴포넌트로 props 하기위해 첫번째로 할 것, 작명={state명}
                     )
                   })
                 }
@@ -78,8 +81,6 @@ function App() {
           <Route path='one' element={<div>첫 주문시 양배추즙 서비스</div>}/>
           <Route path='two' element={<div>생일기념 쿠폰받기</div>}/>
         </Route>
-
-
       </Routes>
 
 
@@ -147,7 +148,9 @@ function Representative(){
 function Card(props){ // props  두번째 스텝
   return (
     <div className="col-md-4 col-content">
-      <img src={process.env.PUBLIC_URL + '0' + [props.i] + '.jpg'} className='col-img'/>
+      <Link to={`/detail/${props.product.id}`}>
+        <img src={process.env.PUBLIC_URL + '0' + [props.i] + '.jpg'} className='col-img'/>
+      </Link>
       <h3> {props.product['title']} </h3>
       <p> {props.product['content']} & {props.product['price']}</p>
     </div>

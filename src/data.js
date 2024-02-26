@@ -11,14 +11,14 @@ let data = [
     {
       id : 0,
       title : "X-mas Doha",
-      content : "Born in France",
+      content : "크리스마스 트리",
       price : 34500
     },
   
     {
       id : 1,
       title : "Chef Doha",
-      content : "Born in Seoul",
+      content : "요리학원",
       price : 110000
     },
   
