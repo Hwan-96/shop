@@ -25,10 +25,41 @@ function Detail(props){
   });
 
   let [alert, setAlert] = useState(true)
+
   useEffect(()=>{
     //여기 적은 코드는 컴포넌트 로드, 업데이트마다 실행
     setTimeout(()=>{ setAlert(false) },2000)
   },[]);
+    // 위에 있는 [] 는 디팬덴시?라고 하는데 변수나 스테이트를 넣을수 있음.
+    //[] 없을때는 mount, update 될때, [state명] 일때는 state가 변할때만 실행, [] 빈채로 두면 mount 될때 1회만 실행
+
+    /* 
+    useEffect(()=>{
+      setTimeout(()=>{ setAlert(false) },2000)
+
+      return () => {
+        코드 ~~~ 
+      }
+    },[]);
+
+    이거 처럼 useEffect 안에 리턴을 줄 수 있다, 이때 리턴은 useEffect 동작 전에 실행 됨
+    위같은 걸 clean up function 이라고함, useEffect 전에 깨끗하게 정리한다는 의미
+    예를 들면 타이머를 하나 만들어서 useEffect 안에 있으면 렌더링이 계속 되서 타이머갯수가 100개 천개 생길 수 있는데,
+    그런거를 예방 하기 위해서임.
+    return() => {
+      기존타이머는 제거해주세요~
+    }
+    useEffect(()=>{ 
+      let a = setTimeout(()=>{ setAlert(false) }, 2000)
+      return ()=>{
+        clearTimeout(a)
+      }
+    }, []) 이렇게 하면 됨
+
+    참고로 clean up function은 mount시 실행 안됨, unmount 시에만 실행 됨
+    */
+
+    // 삼항연산자 왜우자 ? 는 ~ 일때는 이라는뜻, : 는 ~ 이 아닐때는 이라는 뜻
 
   return(
     <div className="container">
