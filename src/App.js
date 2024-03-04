@@ -7,18 +7,23 @@ import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 import data from './data';
 
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 // import Detail from './routes/Detail';
-import Detail from './routes/Detail3';
+import Detail from './routes/Detail4';
 
 function App() {
 
   let [product, setProduct] = useState(data);
+  let [clickCount, setClickCount] = useState(1);
+  let [isLoading,setLoading] = useState(false);
   
   // Hook 이란? : 유용한것들을 모아둔 함수
+
+
   
   return (
     <div className='App'>
@@ -49,6 +54,45 @@ function App() {
                 }
               </div>
             </div>
+            
+            {
+              isLoading === true
+              ? <div className='alert alert-warning loading'>로딩중</div>
+              : null
+            }
+
+            <button className='btn btn-primary' onClick={()=>{
+              setLoading(true);
+
+              let userClick = clickCount + 1;
+
+              setClickCount(userClick);
+              // console.log(userClick);
+              if(userClick){
+                axios.get(`https://codingapple1.github.io/shop/data${userClick}.json`)
+                .then((result)=>{
+                  setLoading(false);
+                  let copy = [...product, ...result.data];
+                  setProduct(copy);
+                })
+                .catch(()=>{
+                  setLoading(false);
+                  console.log('실패')
+                  alert('더 이상 상품이 존재하지 않습니다.')
+                })
+              }
+              // axios.get('https://codingapple1.github.io/shop/data2.json')
+              // .then((result)=>{
+              //   console.log(result.data);
+              //   console.log(product);
+              //   let copy = [...product, ...result.data];
+              //   setProduct(copy);
+              // })
+              // .catch(()=>{
+              //   console.log('실패했습니다')
+              // })
+            }}>더보기</button>
+            
           </>
           /* <></> 프레그먼트 문법 */
         }/>
@@ -58,7 +102,7 @@ function App() {
           <Route path='/detail/:id' element={<Detail product={product}/>}/>
           path 속에 / 다음 콜론,작명 순서 대로 작성(위처럼)
         */}
-        {/* 
+        {/*
         detail.js 꾸미기 1
         <Route path='/detail' element={<Detail/>}/> 기존 해둔거에 props 전송 필요함
         <Route path='/detail' element={<Detail product={product}/>}/> <- 이렇게 하면됨
