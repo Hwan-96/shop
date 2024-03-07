@@ -49,3 +49,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.start{opacity: 0;}
+
+.end{opacity: 1; transition: opacity .5s;}
+

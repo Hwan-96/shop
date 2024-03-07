@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import './App.css';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -8,21 +8,23 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
 import data from './data';
 
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 // import Detail from './routes/Detail';
 import Detail from './routes/Detail4';
 
+export let {재고} = createContext()
+
 function App() {
 
   let [product, setProduct] = useState(data);
   let [clickCount, setClickCount] = useState(1);
   let [isLoading,setLoading] = useState(false);
-  
-  // Hook 이란? : 유용한것들을 모아둔 함수
 
+  // Hook 이란? : 유용한것들을 모아둔 함수
+  
+  let [재고] = useState([10, 11, 12])
 
   
   return (
@@ -96,7 +98,11 @@ function App() {
           </>
           /* <></> 프레그먼트 문법 */
         }/>
-        <Route path='/detail/:id' element={<Detail product={product}/>}/>
+        <Route path='/detail/:id' element={
+          <Context1.Provider value={{ 재고, product}}>
+            <Detail product={product}/>
+          </Context1.Provider>
+        }/>
         {/* 
           url 파라미터 문법으로 상세페이지 개수 늘리기 1단계.
           <Route path='/detail/:id' element={<Detail product={product}/>}/>

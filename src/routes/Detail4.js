@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import { Nav } from 'react-bootstrap';
+
+import {Context1} from './../App'
 
 function Detail(props){
 
@@ -8,6 +10,8 @@ function Detail(props){
   let 찾은상품 = props.product.find(function(x){
     return x.id == id
   });
+
+  let a = useContext(Context1)
 
   let [alert, setAlert] = useState(true)
 
@@ -18,13 +22,23 @@ function Detail(props){
   /* Tab 스테이트 저장 */
   let [tab, setTab] = useState(0);
 
+  let [fade2, setFade2] = useState('');
+  
+  useEffect(()=>{
+    setTimeout(()=>{setFade2('end')},10)
+    return(
+      setFade2('')
+    )
+  }, [])
+
   return(
-    <div className="container">
+    <div className={'container ' + 'start ' + fade2}>
       {
         alert == true
         ? <div className='alert alert-warning'>2초 뒤 사라질 박스</div>
         : null
       }
+      {재고}
       <div className="row">
         <div className="col-md-6">
         <img src={process.env.PUBLIC_URL + '/' + String(id).padStart(2, '0') + '.jpg'} width={"100%"}/>
@@ -59,7 +73,7 @@ function Detail(props){
         tab == 0 ? <div>내용2</div> : null
       } */}
       {/* 삼항 연산자를 써서 탭별 내용을 보여주기엔 코드가 너무 번거러워짐으로 if문을 써보자 하지만 html 안에서 if문을 쓸 수는 없으니까 html 밖에써야함*/}
-      <TabContent tab = { tab }/>
+      <TabContent product={props.product} tab={ tab }/>
     </div>
   )
 }
@@ -87,8 +101,22 @@ function Detail(props){
 
 /* 위처럼 컴포넌트 해도 되지만 더 축약할 수 있음 */
 
-function TabContent({tab}){
-  return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]
+function TabContent({tab, product}){
+
+  let [fade, setFade] = useState('');
+  
+  useEffect(()=>{
+    setTimeout(()=>{setFade('end')},10)
+    return(
+      setFade('')
+    )
+  }, [tab])
+
+  return (
+    <div className={'start ' + fade}>
+      {[<div>{product[0].title}</div>, <div>내용1</div>, <div>내용2</div>][tab]}
+    </div>
+  )
 }
 
 export default Detail;
