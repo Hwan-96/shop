@@ -11,7 +11,7 @@ function Detail(props){
     return x.id == id
   });
 
-  let a = useContext(Context1)
+  let {재고, product} = useContext(Context1)
 
   let [alert, setAlert] = useState(true)
 
@@ -38,7 +38,9 @@ function Detail(props){
         ? <div className='alert alert-warning'>2초 뒤 사라질 박스</div>
         : null
       }
+
       {재고}
+      
       <div className="row">
         <div className="col-md-6">
         <img src={process.env.PUBLIC_URL + '/' + String(id).padStart(2, '0') + '.jpg'} width={"100%"}/>
@@ -103,6 +105,8 @@ function Detail(props){
 
 function TabContent({tab, product}){
 
+  let {재고} = useContext(Context1)
+
   let [fade, setFade] = useState('');
   
   useEffect(()=>{
@@ -114,7 +118,7 @@ function TabContent({tab, product}){
 
   return (
     <div className={'start ' + fade}>
-      {[<div>{product[0].title}</div>, <div>내용1</div>, <div>내용2</div>][tab]}
+      {[<div>{product[0].title}</div>, <div>{재고}</div>, <div>내용2</div>][tab]}
     </div>
   )
 }
